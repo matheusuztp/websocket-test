@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemplo WebSocket</title>
+</head>
+<body>
+  <h1>WebSocket Exemplo</h1>
+  <button id="enviar">Enviar mensagem</button>
+  <input id="mensagem" type="text" placeholder="Digite uma mensagem" />
+  <div id="log"></div>
+  <script>
+    const log = document.getElementById('log');
+    const ws = new WebSocket(`ws://${location.host}`);
+
+    ws.onopen = () => {
+      log.innerHTML += '<div>Conectado ao servidor WebSocket.</div>';
+    };
+    ws.onmessage = (event) => {
+      log.innerHTML += `<div>Servidor: ${event.data}</div>`;
+    };
+    ws.onclose = () => {
+      log.innerHTML += '<div>Desconectado.</div>';
+    };
+
+    document.getElementById('enviar').onclick = () => {
+      const msg = document.getElementById('mensagem').value;
+      ws.send(msg);
+      log.innerHTML += `<div>Você: ${msg}</div>`;
+    };
+  </script>
+</body>
+</html>
